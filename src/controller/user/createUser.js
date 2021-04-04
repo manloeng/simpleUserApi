@@ -1,15 +1,11 @@
 const User = require("../../models/user/model");
-const { validateEmail } = require("../../utils/validator");
+const { checkIfEmailIsValid } = require("../../utils/validator");
 
 async function createUser(req, res, next) {
   const { email, givenName, familyName } = req.body;
 
   try {
-    const emailExist = await User.exists({ email });
-    if (emailExist) throw new Error(next({ status: 400, msg: "Email Exists - please try user another email" }));
-
-    const isEmailValid = validateEmail(email);
-    if (!isEmailValid) throw new Error(next({ status: 400, msg: "Please enter a valid email" }));
+    await checkIfEmailIsValid(email, next);
 
     // removed because people have started using numbers in their names
     // const isGivenNameValid = validateString(givenName);

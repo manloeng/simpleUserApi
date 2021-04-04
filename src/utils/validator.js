@@ -1,3 +1,13 @@
+const User = require("../models/user/model");
+
+async function checkIfEmailIsValid(email, next) {
+  const emailExist = await User.exists({ email });
+  if (emailExist) throw new Error(next({ status: 400, msg: "Email Exists - please try user another email" }));
+
+  const isEmailValid = validateEmail(email);
+  if (!isEmailValid) throw new Error(next({ status: 400, msg: "Please enter a valid email" }));
+}
+
 function validateEmail(email) {
   const emailRegexCheck = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/gm;
   const isEmailValid = emailRegexCheck.test(email);
@@ -14,4 +24,4 @@ function validateString(string) {
   return isStringValid;
 }
 
-module.exports = { validateEmail, validateString };
+module.exports = { checkIfEmailIsValid, validateEmail, validateString };
