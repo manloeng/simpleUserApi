@@ -7,7 +7,7 @@ async function updateUser(req, res, next) {
 
   try {
     const userExist = await User.exists({ _id: id });
-    if (!userExist) throw new Error(next({ status: 400, msg: "User Doesn't exist" }));
+    if (!userExist) throw new Error(next({ status: 404, msg: "User Doesn't exist" }));
 
     if (!Object.keys(data).length) throw new Error(next({ status: 400, msg: "You have not submitted any data" }));
     if (data.email || data.email === "") {
