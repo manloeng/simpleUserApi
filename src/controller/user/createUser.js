@@ -1,9 +1,11 @@
+const User = require("../../models/user/model");
 const { validateEmail } = require("../../utils/validator");
 
 async function createUser(req, res, next) {
   const { email, givenName, familyName } = req.body;
+
   const emailExist = await User.exists({ email });
-  if (!emailExist) next({ status: 400, msg: "Email Exists - please try user another email" });
+  if (emailExist) next({ status: 400, msg: "Email Exists - please try user another email" });
 
   const isEmailValid = validateEmail(email);
   if (!isEmailValid) next({ status: 400, msg: "Please enter a valid email" });
@@ -20,6 +22,7 @@ async function createUser(req, res, next) {
       familyName,
     });
 
+    user.save();
     res.send({ user });
   } catch (e) {
     console.log(e);
