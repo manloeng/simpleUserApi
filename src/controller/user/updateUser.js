@@ -8,6 +8,8 @@ async function updateUser(req, res, next) {
     const userExist = await User.exists({ _id: id });
     if (!userExist) throw new Error(next({ status: 400, msg: "User Doesn't exist" }));
 
+    if (!data) throw new Error(next({ status: 400, msg: "You have not submitted any data" }));
+
     const user = await User.findByIdAndUpdate({ _id: id }, { $set: data }, { new: true }).exec();
 
     if (user) {
