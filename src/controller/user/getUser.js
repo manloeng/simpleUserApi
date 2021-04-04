@@ -5,6 +5,7 @@ async function getUser(req, res, next) {
 
   try {
     const user = await User.findOne({ _id: id }).lean();
+    if (!user) res.send({ user: {} });
     res.send({ user });
   } catch (err) {
     next(err);
