@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
 const port = 3030;
-const apiRouter = require("./routes/api");
-const { routeNotFound, handleCustomErrors, handle500 } = require("./errors");
+const apiRouter = require("./src/router/api");
+const { routeNotFound, handleCustomErrors, handle500 } = require("./src/error");
 
 require("dotenv").config();
 
