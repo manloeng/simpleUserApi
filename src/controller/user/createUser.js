@@ -20,7 +20,7 @@ async function createUser(req, res, next) {
     });
 
     user.save();
-    res.send({ user });
+    res.status(201).send({ user });
   } catch (err) {
     next(err);
   }
