@@ -15,7 +15,7 @@ let Users = new Schema(
     },
   },
   {
-    timestamp: true,
+    timestamps: true,
   }
 );
 
