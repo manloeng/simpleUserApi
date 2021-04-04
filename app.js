@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const port = 3030;
+const cors = require("cors");
 const mongoose = require("mongoose");
 const connectToMongoose = require("./src/utils/mongo");
 const apiRouter = require("./src/router/api");
@@ -11,6 +12,7 @@ require("dotenv").config();
 mongoose.set("useFindAndModify", false);
 connectToMongoose();
 
+app.use(cors());
 app.use(express.static("public"));
 app.use(express.json());
 
