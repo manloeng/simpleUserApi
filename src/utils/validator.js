@@ -1,6 +1,8 @@
 const User = require("../models/user/model");
 
 async function checkIfEmailIsValid(email, next) {
+  if (!email) throw new Error(next({ status: 400, msg: "Please enter a email" }));
+
   const emailExist = await User.exists({ email });
   if (emailExist) throw new Error(next({ status: 400, msg: "Email Exists - please try user another email" }));
 
