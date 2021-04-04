@@ -1,4 +1,4 @@
-const validateEmail = require("../../utils/emailValidator");
+const { validateEmail } = require("../../utils/validator");
 
 async function createUser(req, res, next) {
   const { email, givenName, familyName } = req.body;
@@ -7,6 +7,11 @@ async function createUser(req, res, next) {
 
   const isEmailValid = validateEmail(email);
   if (!isEmailValid) next({ status: 400, msg: "Please enter a valid email" });
+
+  // removed because people have started using numbers in their names
+  // const isGivenNameValid = validateString(givenName);
+  // const isFamilyNameValid = validateString(familyName);
+  // if (!isGivenNameValid || !isFamilyNameValid) next({ status: 400, msg: "Please enter a valid name" });
 
   try {
     const user = new User({
