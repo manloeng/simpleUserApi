@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const port = 3030;
 const mongoose = require("mongoose");
-const connectToMongoose = require("./utils/mongo");
+const connectToMongoose = require("./src/utils/mongo");
 const apiRouter = require("./src/router/api");
 const { routeNotFound, handleCustomErrors, handle500 } = require("./src/error");
 
