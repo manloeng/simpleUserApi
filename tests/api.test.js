@@ -30,7 +30,7 @@ describe("Api Test for the Backend", () => {
         expect(data.users.length).toBeGreaterThan(1);
       });
 
-      it("POST: Create a single User - Expect status 200", async () => {
+      it("POST: Create a single User, when passed with a valid payload - Expect status 200", async () => {
         const payload = {
           email: faker.internet.email(),
           givenName: faker.name.firstName(),
@@ -45,6 +45,65 @@ describe("Api Test for the Backend", () => {
         expect(data.user.familyName).toEqual(payload.familyName);
 
         newUser = data.user;
+      });
+
+      it("POST: Create a single User, when passed with a valid payload - Expect status 200", async () => {
+        const payload = {
+          email: faker.internet.email(),
+        };
+
+        const { status, data } = await axios.post(`/api/users`, payload);
+
+        expect(status).toEqual(201);
+        expect(data.user.email).toEqual(payload.email);
+      });
+
+      it("POST: Create a single User, when passed with an empty payload - Expect status 400", async () => {
+        const payload = {};
+
+        try {
+          const { status, data } = await axios.post(`/api/users`, payload);
+          expect(status).toEqual(400);
+        } catch ({ response }) {
+          expect(response.status).toEqual(400);
+          expect(response.data.msg).toEqual("Please enter a email");
+        }
+      });
+
+      it("POST: Create a single User, when passed with a payload with an empty email field - Expect status 400", async () => {
+        const payload = { email: "" };
+
+        try {
+          const { status, data } = await axios.post(`/api/users`, payload);
+          expect(status).toEqual(400);
+        } catch ({ response }) {
+          expect(response.status).toEqual(400);
+          expect(response.data.msg).toEqual("Please enter a email");
+        }
+      });
+
+      it("POST: Create a single User, when passed with a payload with an invalid email value - Expect status 400", async () => {
+        const payload = { email: "Hello World" };
+
+        try {
+          const { status, data } = await axios.post(`/api/users`, payload);
+          expect(status).toEqual(400);
+        } catch ({ response }) {
+          expect(response.status).toEqual(400);
+          expect(response.data.msg).toEqual("Please enter a valid email");
+        }
+      });
+
+      it("POST: Create a single User, when passed with a payload with an invalid email value - Expect status 400", async () => {
+        const payload = { email: "HelloWorld@HellWorld" };
+
+        try {
+          const { status, data } = await axios.post(`/api/users`, payload);
+          expect(status).toEqual(400);
+        } catch ({ response }) {
+          expect(response.status).toEqual(400);
+          expect(response.data.msg).toEqual("Please enter a valid email");
+        }
       });
 
       it("INVALID METHOD status:405", async () => {
