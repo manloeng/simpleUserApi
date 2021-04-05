@@ -1,9 +1,12 @@
 const mongoose = require("mongoose");
-const secret = require("../secrets.json");
+// const secret = require("../secrets.json");
 const faker = require("faker");
 const axios = require("axios");
-axios.defaults.baseURL = "http://localhost:3030";
-// jest.setTimeout(10000);
+
+// local env
+// axios.defaults.baseURL = "http://localhost:3030";
+
+axios.defaults.baseURL = "https://simple-user-api.vercel.app";
 
 describe("Api Test for the Backend", () => {
   let newUser;
