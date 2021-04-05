@@ -1,8 +1,9 @@
-const mongoose = require("mongoose");
+const faker = require("faker");
 const axios = require("axios");
 axios.defaults.baseURL = "http://localhost:3030";
 
 describe("Api Test for the Backend", () => {
+  let newUser;
   // beforeEach(async () => {
   //   await resetDb();
   //   await populateCollections();
@@ -23,25 +24,27 @@ describe("Api Test for the Backend", () => {
     });
 
     describe("/Users Route", () => {
-      it.only("GET: All Users - Expect status 200", async () => {
-        try {
-          const { status, data } = await axios.get(`/api/users`);
-          expect(status).toEqual(200);
-          expect(data.users.length).toBeGreaterThan(1);
-        } catch (err) {
-          console.log(err);
-        }
+      it("GET: All Users - Expect status 200", async () => {
+        const { status, data } = await axios.get(`/api/users`);
+        expect(status).toEqual(200);
+        expect(data.users.length).toBeGreaterThan(1);
       });
 
       it("POST: Create a single User - Expect status 200", async () => {
-        try {
-          const payload = { email: "newEmail1@test.com" };
-          const { status, data } = await axios.post(`/api/users`, payload);
-          expect(status).toEqual(201);
-          expect(data.users.length).toEqual(2);
-        } catch (err) {
-          console.log(err);
-        }
+        const payload = {
+          email: faker.internet.email(),
+          givenName: faker.name.firstName(),
+          familyName: faker.name.lastName(),
+        };
+
+        const { status, data } = await axios.post(`/api/users`, payload);
+
+        expect(status).toEqual(201);
+        expect(data.user.email).toEqual(payload.email);
+        expect(data.user.givenName).toEqual(payload.givenName);
+        expect(data.user.familyName).toEqual(payload.familyName);
+
+        newUser = data.user;
       });
 
       it("INVALID METHOD status:405", async () => {
@@ -58,36 +61,26 @@ describe("Api Test for the Backend", () => {
 
       describe("/Users/:id Routes", () => {
         it("GET: Single User - Expect status 200", async () => {
-          console.log(firstUser._id, "first");
-          try {
-            const { data } = await axios.get(`/api/users`);
-            const firstUser = data.users[0];
-
-            const getUserResponse = await axios.get(`/api/users/${firstUser._id}`);
-            expect(getUserResponse.status).toEqual(200);
-            expect(getUserResponse.data.user._id).toEqual(firstUser._id);
-            expect(getUserResponse.data.user.email).toEqual("test@test.com");
-            expect(getUserResponse.data.user.givenName).toEqual("Andrew");
-            expect(getUserResponse.data.user.familyName).toEqual("Chung");
-          } catch (err) {
-            console.log(err, "err");
-          }
+          const getUserResponse = await axios.get(`/api/users/${newUser._id}`);
+          expect(getUserResponse.status).toEqual(200);
+          expect(getUserResponse.data.user._id).toEqual(newUser._id);
+          expect(getUserResponse.data.user.email).toEqual(newUser.email);
+          expect(getUserResponse.data.user.givenName).toEqual(newUser.givenName);
+          expect(getUserResponse.data.user.familyName).toEqual(newUser.familyName);
         });
 
         it("PATCH: Update data on a single User - Expect status 200", async () => {
-          try {
-            const { data } = await axios.get(`/api/users`);
-            const firstUser = data.users[0];
+          const payload = {
+            email: faker.internet.email(),
+            givenName: faker.name.firstName(),
+            familyName: faker.name.lastName(),
+          };
 
-            const payload = { email: "updatedEmail@test.com", givenName: "Sam", familyName: "Jackson" };
-            const updateResponse = await axios.patch(`/api/users/${firstUser._id}`, payload);
-            expect(updateResponse.status).toEqual(200);
-            expect(updateResponse.data.user.email).toEqual("updatedEmail@test.com");
-            expect(updateResponse.data.user.givenName).toEqual("Sam");
-            expect(updateResponse.data.user.familyName).toEqual("Jackson");
-          } catch (err) {
-            console.log(err);
-          }
+          const { status, data } = await axios.patch(`/api/users/${newUser._id}`, payload);
+          expect(status).toEqual(200);
+          expect(data.email).toEqual(payload.email);
+          expect(data.givenName).toEqual(payload.givenName);
+          expect(data.familyName).toEqual(payload.familyName);
         });
 
         it("INVALID METHOD status:405", async () => {
