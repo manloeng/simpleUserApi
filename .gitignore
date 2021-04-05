@@ -4,4 +4,4 @@ yarn.lock
 secrets.json
 .serverless
 .vercel
-.coverage
+coverage
