@@ -17,13 +17,13 @@ function validateEmail(email) {
   return isEmailValid;
 }
 
-function validateString(string) {
-  const stringRegex = /\w+/g;
-  const matchString = string.match(stringRegex);
+// function validateString(string) {
+//   const stringRegex = /\w+/g;
+//   const matchString = string.match(stringRegex);
 
-  const newString = matchString.join("");
-  const isStringValid = string.length === newString.length;
-  return isStringValid;
-}
+//   const newString = matchString.join("");
+//   const isStringValid = string.length === newString.length;
+//   return isStringValid;
+// }
 
-module.exports = { checkIfEmailIsValid, validateEmail, validateString };
+module.exports = { checkIfEmailIsValid, validateEmail };
