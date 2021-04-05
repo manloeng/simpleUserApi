@@ -3,3 +3,4 @@ yarn.lock
 .env
 secrets.json
 .serverless
+.vercel
