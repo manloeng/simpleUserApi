@@ -306,39 +306,39 @@ describe("Api Test for the Backend", () => {
   });
 });
 
-async function resetDb() {
-  await connectToDB();
-  await dropCollections();
-}
+// async function resetDb() {
+//   await connectToDB();
+//   await dropCollections();
+// }
 
-async function connectToDB() {
-  await mongoose.connect(secret.uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-}
+// async function connectToDB() {
+//   await mongoose.connect(secret.uri, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   });
+// }
 
-async function dropCollections() {
-  const collections = ["users"];
+// async function dropCollections() {
+//   const collections = ["users"];
 
-  const currentCollections = await mongoose.connection.db.listCollections().toArray();
+//   const currentCollections = await mongoose.connection.db.listCollections().toArray();
 
-  const collectionNames = currentCollections.map((collection) => collection.name);
+//   const collectionNames = currentCollections.map((collection) => collection.name);
 
-  collections.forEach(async (collection) => {
-    if (collectionNames.includes(collection)) {
-      await mongoose.connection.db.dropCollection(collection);
-    }
-  });
-}
+//   collections.forEach(async (collection) => {
+//     if (collectionNames.includes(collection)) {
+//       await mongoose.connection.db.dropCollection(collection);
+//     }
+//   });
+// }
 
-async function populateCollections() {
-  const payload = {
-    email: faker.internet.email(),
-    givenName: faker.name.firstName(),
-    familyName: faker.name.lastName(),
-  };
+// async function populateCollections() {
+//   const payload = {
+//     email: faker.internet.email(),
+//     givenName: faker.name.firstName(),
+//     familyName: faker.name.lastName(),
+//   };
 
-  const { status, data } = await axios.post(`/api/users`, payload);
-  return data.user;
-}
+//   const { status, data } = await axios.post(`/api/users`, payload);
+//   return data.user;
+// }
