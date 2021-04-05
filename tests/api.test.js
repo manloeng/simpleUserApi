@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-// const secret = require("../secrets.json");
+const secret = require("../secrets.json");
 const faker = require("faker");
 const axios = require("axios");
 
@@ -10,14 +10,14 @@ axios.defaults.baseURL = "https://simple-user-api.vercel.app";
 
 describe("Api Test for the Backend", () => {
   let newUser;
-  // beforeEach(async () => {
-  //   await resetDb();
-  //   newUser = await populateCollections();
-  // });
+  beforeEach(async () => {
+    await resetDb();
+    newUser = await populateCollections();
+  });
 
-  // afterAll(async () => {
-  //   mongoose.connection.close();
-  // });
+  afterAll(async () => {
+    mongoose.connection.close();
+  });
 
   describe("Api Test For Base Route", () => {
     it("GET: Base Route - Expect status 404", async () => {
@@ -51,7 +51,7 @@ describe("Api Test for the Backend", () => {
         expect(data.user.givenName).toEqual(payload.givenName);
         expect(data.user.familyName).toEqual(payload.familyName);
 
-        newUser = data.user;
+        // newUser = data.user;
       });
 
       it("POST: Create a single User, when passed with a valid payload - Expect status 200", async () => {
@@ -309,39 +309,39 @@ describe("Api Test for the Backend", () => {
   });
 });
 
-// async function resetDb() {
-//   await connectToDB();
-//   await dropCollections();
-// }
+async function resetDb() {
+  await connectToDB();
+  await dropCollections();
+}
 
-// async function connectToDB() {
-//   await mongoose.connect(secret.uri, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   });
-// }
+async function connectToDB() {
+  await mongoose.connect(secret.uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+}
 
-// async function dropCollections() {
-//   const collections = ["users"];
+async function dropCollections() {
+  const collections = ["users"];
 
-//   const currentCollections = await mongoose.connection.db.listCollections().toArray();
+  const currentCollections = await mongoose.connection.db.listCollections().toArray();
 
-//   const collectionNames = currentCollections.map((collection) => collection.name);
+  const collectionNames = currentCollections.map((collection) => collection.name);
 
-//   collections.forEach(async (collection) => {
-//     if (collectionNames.includes(collection)) {
-//       await mongoose.connection.db.dropCollection(collection);
-//     }
-//   });
-// }
+  collections.forEach(async (collection) => {
+    if (collectionNames.includes(collection)) {
+      await mongoose.connection.db.dropCollection(collection);
+    }
+  });
+}
 
-// async function populateCollections() {
-//   const payload = {
-//     email: faker.internet.email(),
-//     givenName: faker.name.firstName(),
-//     familyName: faker.name.lastName(),
-//   };
+async function populateCollections() {
+  const payload = {
+    email: faker.internet.email(),
+    givenName: faker.name.firstName(),
+    familyName: faker.name.lastName(),
+  };
 
-//   const { status, data } = await axios.post(`/api/users`, payload);
-//   return data.user;
-// }
+  const { status, data } = await axios.post(`/api/users`, payload);
+  return data.user;
+}
