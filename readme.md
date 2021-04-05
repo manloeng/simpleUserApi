@@ -87,16 +87,6 @@ This should get the app up and running and it can be viewed on http://localhost:
 
 ## Step 1 - Update the secret.example.json (for testing)
 
-You will need to add the mongodb uri in order to test this app.
-
-Please rename the `secret.example.json` file to `secret.json` and change the uri field
-
-example:
-
-```
-"uri": "<mongo:<user>:<password>@cluser.....>"
-```
-
 To test the app you can now run:
 
 ```
