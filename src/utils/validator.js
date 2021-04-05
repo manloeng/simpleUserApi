@@ -11,7 +11,7 @@ async function checkIfEmailIsValid(email, next) {
 }
 
 function validateEmail(email) {
-  const emailRegexCheck = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/gm;
+  const emailRegexCheck = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/gm;
   const isEmailValid = emailRegexCheck.test(email);
 
   return isEmailValid;

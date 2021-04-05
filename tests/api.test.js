@@ -94,7 +94,7 @@ describe("Api Test for the Backend", () => {
         }
       });
 
-      it("POST: Create a single User, when passed with a payload with an invalid email value - Expect status 400", async () => {
+      it.only("POST: Create a single User, when passed with a payload with an invalid email value - Expect status 400", async () => {
         const payload = { email: "HelloWorld@HellWorld" };
 
         try {
