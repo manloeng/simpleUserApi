@@ -17,6 +17,14 @@ exports.methodNotAllowed = (req, res) => {
 };
 
 exports.handleCustomErrors = (err, req, res, next) => {
+  const { name, value, path } = err;
+
+  // Handle mongo errs
+  if (name === "CastError") {
+    let message = `Please Enter a valid input for '${path}', '${value}' is not a valid input`;
+    res.status(400).send({ msg: message });
+  }
+
   if (err.status) res.status(err.status).send({ msg: err.msg });
   else next(err);
 };
