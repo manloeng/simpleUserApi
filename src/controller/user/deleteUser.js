@@ -7,7 +7,7 @@ async function deleteUser(req, res, next) {
     if (!userExist) throw new Error(next({ status: 404, msg: "User Doesn't exist" }));
 
     await User.findOneAndDelete({ _id: id }).exec();
-    res.status(204).send({ msg: "Sucessfully Deleted" });
+    res.status(204);
   } catch (err) {
     next(err);
   }
