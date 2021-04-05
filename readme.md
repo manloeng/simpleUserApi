@@ -93,6 +93,12 @@ To test the app you can now run:
 yarn test
 ```
 
+if you would like to see the coverage of the test you can run:
+
+```
+yarn test:coverage
+```
+
 # Todo List
 
 - Update cors - in a real world app
