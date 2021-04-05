@@ -92,3 +92,10 @@ To test the app you can now run:
 ```
 yarn test
 ```
+
+# Todo List
+
+- Update cors - in a real world app
+- remove .env and just use secret.json
+- Add different environments for production, development and testing purposes
+- Deploy on serverless
